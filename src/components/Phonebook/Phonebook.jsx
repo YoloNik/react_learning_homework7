@@ -10,12 +10,15 @@ import {
   deleteContact,
 } from 'redux/contacts/contactsOperation';
 import s from './Phonebook.module.css';
+import * as contactsSelector from 'redux/contacts/contactsSelector';
+import ReactLoading from 'react-loading';
 
 const Phonebook = () => {
   const [user, setUser] = useState('');
   const [phone, setPhone] = useState('');
-  const filter = useSelector(state => state.contacts.filter);
-  const contacts = useSelector(state => state.contacts.data.items);
+  const filter = useSelector(contactsSelector.getFilter);
+  const contacts = useSelector(contactsSelector.getContacts);
+  const loading = useSelector(contactsSelector.getLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,8 +78,17 @@ const Phonebook = () => {
         onChange={handleChange}
         addContact={addContact}
       />
+      <div className={s.contactsTitle}>
+        {loading ? (
+          <>
+            <p>We are processing your request, please wait</p>
+            <ReactLoading type="spin" width={30} height={30} />
+          </>
+        ) : (
+          <p>Сontacts:</p>
+        )}
+      </div>
 
-      <h3>Contacts</h3>
       <FilterPhonebook filterValue={filter} onChange={handleChange} />
       <ContactList
         filter={filter}

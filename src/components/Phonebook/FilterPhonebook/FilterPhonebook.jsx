@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const style = {
-  width: '50%',
+  width: '70%',
   height: '30px',
   border: '1px',
   borderRadius: '16px',

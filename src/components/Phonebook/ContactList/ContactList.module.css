@@ -4,6 +4,7 @@
 .contactItem{
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	margin: 10px 0;
 } 
 .button{
@@ -12,10 +13,4 @@
 	border-radius: 5px;
 	border: 1px solid gray;
 	height: 1000%;
-}
-.avatar{
-	border-radius: 50%;
-	aspect-ratio: 1;
-	width: 10%;
-	margin-right: 10px;
 }

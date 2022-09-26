@@ -11,7 +11,6 @@ function ContactList({ filter, contacts, filterByName, removeContact }) {
           filterByName().map(el => {
             return (
               <li className={s.contactItem} key={el.id}>
-                <img className={s.avatar} src={el.avatar} alt={el.name} />
                 <p>
                   {el.name}: {el.phone}
                 </p>
@@ -29,7 +28,6 @@ function ContactList({ filter, contacts, filterByName, removeContact }) {
           contacts.map(el => {
             return (
               <li className={s.contactItem} key={el.id}>
-                <img className={s.avatar} src={el.avatar} alt={el.name} />
                 <p>
                   {el.name}: {el.phone}
                 </p>
@@ -54,6 +52,6 @@ export default ContactList;
 ContactList.prototype = {
   filter: PropTypes.string,
   contacts: PropTypes.array.isRequired,
-  filterByName: PropTypes.func.isRequired,
+  filterByName: PropTypes.string,
   deleteContact: PropTypes.func.isRequired,
 };
