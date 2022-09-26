@@ -3,10 +3,19 @@
 }
 .contactItem{
 	display: flex;
+	align-items: center;
+	margin: 10px 0;
 } 
 .button{
 	margin: 10px;
 	background-color: rgb(219, 118, 118);
 	border-radius: 5px;
 	border: 1px solid gray;
+	height: 1000%;
+}
+.avatar{
+	border-radius: 50%;
+	aspect-ratio: 1;
+	width: 10%;
+	margin-right: 10px;
 }

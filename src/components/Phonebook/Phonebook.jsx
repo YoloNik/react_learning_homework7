@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UserInput from './UserInput/UserInput';
 import FilterPhonebook from './FilterPhonebook/FilterPhonebook';
 import ContactList from './ContactList/ContactList';
-import phonebookData from 'data/phonebookData';
+import { filterChange } from 'redux/contacts/contactsSlice';
 import {
-  addContact,
-  setContacts,
-  removeContact,
-} from 'redux/contacts/contactsActions';
-import { filterChange } from 'redux/contacts/filtersActions';
-import { nanoid } from 'nanoid';
+  getContacts,
+  postContact,
+  deleteContact,
+} from 'redux/contacts/contactsOperation';
 import s from './Phonebook.module.css';
 
-const Phonebook = ({
-  contacts,
-  onAddContact,
-  onSetContacts,
-  onRemoveContact,
-}) => {
+const Phonebook = () => {
   const [user, setUser] = useState('');
-  const [number, setNumber] = useState('');
-  const filter = useSelector(state => state.filter);
-  const filterDispatch = useDispatch();
+  const [phone, setPhone] = useState('');
+  const filter = useSelector(state => state.contacts.filter);
+  const contacts = useSelector(state => state.contacts.data.items);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    onSetContacts(phonebookData.contacts);
-  }, [onSetContacts]);
+    dispatch(getContacts());
+  }, [dispatch]);
 
   const handleChange = e => {
     switch (e.target.name) {
       case 'name':
         setUser(e.target.value);
         break;
-      case 'number':
-        setNumber(e.target.value);
+      case 'phone':
+        setPhone(e.target.value);
         break;
       case 'filter':
-        filterDispatch(filterChange(e.target.value));
+        dispatch(filterChange(e.target.value));
         break;
 
       default:
@@ -46,29 +40,24 @@ const Phonebook = ({
   };
 
   const addContact = e => {
-    e.preventDefault();
-
     const newContact = {
       name: user,
-      number: number,
-      id: nanoid(),
+      phone: phone,
     };
-
     const searchSameName = contacts.map(cont => cont.name).includes(user);
-
     searchSameName
       ? alert(`${user} is already in contacts`)
-      : onAddContact(newContact);
+      : dispatch(postContact(newContact));
     reset();
+  };
+
+  const removeContact = e => {
+    dispatch(deleteContact(e.target.name));
   };
 
   const reset = () => {
     setUser('');
-    setNumber('');
-  };
-
-  const deleteContact = e => {
-    onRemoveContact(e.target.name);
+    setPhone('');
   };
 
   const filterByName = () => {
@@ -82,7 +71,7 @@ const Phonebook = ({
       <h2 className={s.title}>Phonebook</h2>
       <UserInput
         valueName={user}
-        valueTel={number}
+        valueTel={phone}
         onChange={handleChange}
         addContact={addContact}
       />
@@ -93,20 +82,10 @@ const Phonebook = ({
         filter={filter}
         contacts={contacts}
         filterByName={filterByName}
-        deleteContact={deleteContact}
+        removeContact={removeContact}
       />
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  contacts: state.items,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSetContacts: contacts => dispatch(setContacts(contacts)),
-  onAddContact: newContact => dispatch(addContact(newContact)),
-  onRemoveContact: contact => dispatch(removeContact(contact)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Phonebook);
+export default Phonebook;

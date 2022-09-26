@@ -3,45 +3,49 @@ import s from './ContactList.module.css';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import PropTypes from 'prop-types';
 
-function ContactList({ filter, contacts, filterByName, deleteContact }) {
+function ContactList({ filter, contacts, filterByName, removeContact }) {
   return (
-    <ul className={s.contactList}>
-      {(filter &&
-        filterByName().map(el => {
-          return (
-            <li className={s.contactItem} key={el.id}>
-              <p>
-                {el.name}: {el.number}
-              </p>
-              <button
-                name={el.id}
-                onClick={deleteContact}
-                className={s.button}
-                type="button"
-              >
-                <AiOutlineUserDelete /> Delete
-              </button>
-            </li>
-          );
-        })) ||
-        contacts.map(el => {
-          return (
-            <li className={s.contactItem} key={el.id}>
-              <p>
-                {el.name}: {el.number}
-              </p>
-              <button
-                name={el.id}
-                onClick={deleteContact}
-                className={s.button}
-                type="button"
-              >
-                <AiOutlineUserDelete /> Delete
-              </button>
-            </li>
-          );
-        })}
-    </ul>
+    <div className={s.test}>
+      <ul className={s.contactList}>
+        {(filter &&
+          filterByName().map(el => {
+            return (
+              <li className={s.contactItem} key={el.id}>
+                <img className={s.avatar} src={el.avatar} alt={el.name} />
+                <p>
+                  {el.name}: {el.phone}
+                </p>
+                <button
+                  name={el.id}
+                  onClick={removeContact}
+                  className={s.button}
+                  type="button"
+                >
+                  <AiOutlineUserDelete /> Delete
+                </button>
+              </li>
+            );
+          })) ||
+          contacts.map(el => {
+            return (
+              <li className={s.contactItem} key={el.id}>
+                <img className={s.avatar} src={el.avatar} alt={el.name} />
+                <p>
+                  {el.name}: {el.phone}
+                </p>
+                <button
+                  name={el.id}
+                  onClick={removeContact}
+                  className={s.button}
+                  type="button"
+                >
+                  <AiOutlineUserDelete /> Delete
+                </button>
+              </li>
+            );
+          })}
+      </ul>
+    </div>
   );
 }
 
